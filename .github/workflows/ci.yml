@@ -15,8 +15,8 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install -r requirements-dev.txt
-#      - name: Lint with isort
-#        run: isort --check --diff .
+      - name: Lint with isort
+        run: isort --check --diff .
       - name: Lint with black
         run: black --check --diff .
       - name: Lint with flake8
