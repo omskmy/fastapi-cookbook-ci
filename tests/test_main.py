@@ -1,9 +1,11 @@
 import pytest
 from httpx import ASGITransport, AsyncClient
 from sqlalchemy.ext.asyncio import create_async_engine
-from main import app
+
 import models
 from database import DATABASE_URL
+from main import app
+
 
 @pytest.fixture(scope="module", autouse=True)
 async def setup_database():

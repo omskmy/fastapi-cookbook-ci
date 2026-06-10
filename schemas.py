@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 
+
 class BaseRecipe(BaseModel):
     title: str
     cooking_time: int
