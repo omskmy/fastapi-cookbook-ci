@@ -17,6 +17,7 @@ async def setup_database():
         await conn.run_sync(models.Base.metadata.drop_all)
     await engine.dispose()
 
+
 @pytest.mark.anyio
 async def test_create_and_get():
     async with AsyncClient(
@@ -29,8 +30,8 @@ async def test_create_and_get():
                 "title": "Тест",
                 "cooking_time": 10,
                 "ingredients": "ингредиенты",
-                "description": "описание"
-            }
+                "description": "описание",
+            },
         )
         assert resp.status_code == 201
         recipe_id = resp.json()["id"]

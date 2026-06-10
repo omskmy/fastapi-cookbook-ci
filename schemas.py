@@ -7,12 +7,14 @@ class BaseRecipe(BaseModel):
     ingredients: str
     description: str
 
+
 class RecipeIn(BaseRecipe):
     pass
+
 
 class RecipeOut(BaseRecipe):
     id: int
     views: int
 
     class Config:
-        from_attributes = True   
+        from_attributes = True
