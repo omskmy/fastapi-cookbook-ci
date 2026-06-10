@@ -1,12 +1,14 @@
 from contextlib import asynccontextmanager
 from typing import AsyncGenerator, List
+
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy import update
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
+
 import models
 import schemas
-from database import engine, get_db, Base
+from database import Base, engine, get_db
 
 
 @asynccontextmanager
@@ -37,7 +39,8 @@ async def list_recipes(db: AsyncSession = Depends(get_db)) -> List[schemas.Recip
         models.Recipe.views.desc(), models.Recipe.cooking_time.asc()
     )
     res = await db.execute(stmt)
-    return res.scalars().all()
+    recipes = res.scalars().all()
+    return [schemas.RecipeOut.model_validate(r) for r in recipes]
 
 
 @app.get("/recipes/{recipe_id}", response_model=schemas.RecipeOut)

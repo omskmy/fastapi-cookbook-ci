@@ -1,13 +1,16 @@
+from typing import AsyncGenerator
+
 import pytest
 from httpx import ASGITransport, AsyncClient
 from sqlalchemy.ext.asyncio import create_async_engine
+
 import models
 from database import DATABASE_URL
 from main import app
 
 
 @pytest.fixture(scope="module", autouse=True)
-async def setup_database() -> None:
+async def setup_database() -> AsyncGenerator[None, None]:
     engine = create_async_engine(DATABASE_URL, echo=True)
     async with engine.begin() as conn:
         await conn.run_sync(models.Base.metadata.create_all)
