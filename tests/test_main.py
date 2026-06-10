@@ -5,6 +5,7 @@ import models
 from database import DATABASE_URL
 from main import app
 
+
 @pytest.fixture(scope="module", autouse=True)
 async def setup_database() -> None:
     engine = create_async_engine(DATABASE_URL, echo=True)
@@ -15,9 +16,12 @@ async def setup_database() -> None:
         await conn.run_sync(models.Base.metadata.drop_all)
     await engine.dispose()
 
+
 @pytest.mark.anyio
 async def test_create_and_get() -> None:
-    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
+    async with AsyncClient(
+        transport=ASGITransport(app=app), base_url="http://test"
+    ) as ac:
         resp = await ac.post(
             "/recipes",
             json={
